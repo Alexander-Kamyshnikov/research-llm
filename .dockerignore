@@ -1,0 +1,12 @@
+.run
+.idea
+.docker
+.git
+.env
+.gitignore
+.mypy_cache
+.pytest_cache
+docker-compose.yml
+__pycache__
+venv/
+notebooks/

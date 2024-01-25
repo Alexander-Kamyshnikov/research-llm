@@ -1,0 +1,13 @@
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+
+#train: /local_data/yolov_data/train/images/
+#val: /local_data/yolov_data/test/images/
+# path: /local_data/
+train: /local_data/yolov_markup/markup_8_classes/train/
+val: /local_data/yolov_markup/markup_8_classes/test/
+
+# number of classes
+nc: 8
+
+# class names
+names: ['application', 'content', 'date', 'number', 'recipient', 'sender', 'signer', 'text']

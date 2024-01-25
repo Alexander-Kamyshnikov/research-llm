@@ -1,0 +1,9 @@
+train: /local_data/yolov_markup/markup_content/train/images/
+val: /local_data/yolov_markup/markup_content/test/images/
+
+# number of classes
+nc: 1
+
+# class names
+
+names: ['text']

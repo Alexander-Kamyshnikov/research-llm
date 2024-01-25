@@ -1,0 +1,30 @@
+# docker build
+docker build -t research:yolo -f .docker/jupyter/Dockerfile_yolo .
+
+#run container
+
+docker run -d -p 8888:8888 -v /home/alex_k/PredictionService:/app -v /data/volume_data:/data -v /data/users/alex_k:/local_data -v 
+/data/users/alex_k/.ipython:/root/.ipython --env GIT_PYTHON_REFRESH=quiet --env TIKA_SERVER_ENDPOINT=http://172.16.6.129:9998 --name yolov8 
+research:yolo jupyter notebook --allow-root --notebook-dir=/app --ip='*' --port=8888 --no-browser 
+
+############################ requirements_yolo ########################################################
+wheel
+opencv-python>=4.1.1
+pytesseract==0.3.10
+pdf2image==1.16.2
+torch>=1.7.0
+ultralytics==8.0.58
+
+########################### Dockerfile_yolo ######################################################
+FROM research:latest
+
+COPY ["requirements_yolo.txt", "./"]
+
+RUN python3 -m pip install --upgrade pip && pip install --no-cache-dir -r requirements_yolo.txt
+
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
+RUN apt-get -y install libleptonica-dev tesseract-ocr  libtesseract-dev python3-pil tesseract-ocr-eng tesseract-ocr-rus tesseract-ocr-script-latn
+
+RUN apt-get -y install poppler-utils
+

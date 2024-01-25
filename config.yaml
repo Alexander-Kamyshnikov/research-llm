@@ -1,0 +1,82 @@
+MODELS:
+  TopicClassification:
+    kind: TopicClassification
+    thresholds:
+      BASE: 0.1
+  RCAutocomplete:
+    kind: RCAutocomplete
+  ProtocolParser:
+    kind: ProtocolParser
+
+  CRCategorization:
+    kind: CRCategorization
+    init:
+      thresholds:
+        BASE: 0.05
+
+  ControlPredictor:
+    kind: ControlPredictor
+    init:
+      thresholds:
+        BASE: 0.1
+
+  #  AutoresolutionGUP:
+  #    kind: Autoresolution
+  #    init:
+  #      stage: Production
+  #      name: AutoresolutionGUP
+
+  Autoresolution:
+    kind: Autoresolution
+    init:
+      stage: Production
+      thresholds:
+        BASE: 0.4
+        945552f0-1f81-458f-b3fd-719f19e34f17: 0.1
+        616c6c23-42b6-4632-ae43-d9feb36b9632: 0.85
+      preprocessing:
+        LEMMATIZE: False
+        MAX_WORD_LEN: 500
+    retrain:
+      new_docs_folder: '/data/test/vh_first_100'
+      latest_docs_folder: '/data/docs/vh_full'
+      df_folder: '/data/dfs/main_new/'
+      train_lag: 300
+      validation_lag: 5
+      auto_deploy: True
+    threshold_recommends:
+      df_folder: '/data/dfs/main_new/'
+      data_lag: 5
+      accuracy_threshold: 0.85
+      min_docs: 10
+
+ASSETS:
+  employees:
+    path: '/data/assets/employees.csv'
+#    enc: 'utf-8'
+#    columns:
+#      RowID: 'employee_id'
+#      FirstName: 'first_name'
+#      MiddleName: 'middle_name'
+#      LastName: 'last_name'
+#      Manager: 'manager'
+#      DisplayString: 'employee_name'
+#      departmentId: 'department_id'
+#      NotAvailable: 'not_available'
+  departments:
+    path: '/data/assets/departments.csv'
+#    enc: 'utf-8'
+#    columns:
+#      RowID: 'department_id'
+#      parentDepartment: 'parent_department_id'
+#      rootDepartment: 'root_department_id'
+#      rootDepartmentMark: 'root_department_mark'
+#      NotAvailable: 'not_available'
+#      isDeparment: 'is_department'
+  categories:
+    path: '/data/assets/CategoriesFromClassifier.txt'
+  topics:
+    path: '/data/assets/topics.csv'
+  counterparties:
+    path: '/data/assets/references/reference_sender_signer.csv'
+

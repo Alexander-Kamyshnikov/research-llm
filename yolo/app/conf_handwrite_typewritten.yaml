@@ -1,0 +1,9 @@
+train: /local_data/yolov_markup/markup_handwrites/train/images/
+val: /local_data/yolov_markup/markup_handwrites/test/images/
+
+# number of classes
+nc: 2
+
+# class names
+
+names: ['handwrite', 'typewritten']

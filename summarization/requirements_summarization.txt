@@ -1,0 +1,10 @@
+transformers[torch]==4.30.2
+sentence-transformers
+accelerate>=0.20.1
+datasets
+rouge_score
+evaluate
+
+
+
+

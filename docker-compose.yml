@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  mlflow:
+    image: ci-linux.vdags.digdes.com/mlflow:latest
+    container_name: mlflow
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+    volumes:
+      - ${MLFLOW_DB_PATH}:/usr/src/data/mlflow/
+    depends_on:
+      - ftp_server
+
+  tika:
+    image: apache/tika:2.1.0
+    container_name: tika
+    ports:
+      - "9998:9998"
+    restart:
+      always
+    deploy:
+      resources:
+        limits:
+          memory: 1500M
+
+  prediction_service:
+    image: ci-linux.vdags.digdes.com/prediction_service:latest
+    container_name: prediction_service
+    env_file:
+      - .env
+    environment:
+      - TIKA_SERVER_ENDPOINT=http://tika:9998
+      - MLFLOW_TRACKING_URI=http://${HOST_IP}:5000
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mlflow
+      - tika
+    volumes:
+      - ${CARD_DATA_PATH}:/data/docs
+      - ${DFS_PATH}:/data/dfs
+      - ${ASSETS_PATH}:/data/assets
+      - ${CONFIG_YAML}:/app/config.yaml
+
+  ftp_server:
+    image: stilliard/pure-ftpd:latest
+    container_name: ftp_server
+    env_file:
+      - .env
+    environment:
+      - FTP_USER_HOME=/home/mlflow
+      - PUBLICHOST=${HOST_IP}
+      - FTP_MAX_CLIENTS=25
+      - FTP_PASSIVE_PORTS=30000:30049
+    ports:
+      - "21:21"
+      - "30000-30049:30000-30049"
+    volumes:
+      - ${MLFLOW_DATA}:/home/mlflow/data

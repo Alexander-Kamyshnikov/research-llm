@@ -1,0 +1,36 @@
+### TRAIN ###
+
+# dirictoryes and doc names
+DIR_PATH_PDF: '/data/volume_data/docs/vh/full_new/full' # dir with pdf doc's
+DIR_PATH_PREPROCESSING_DOCS: './data/' # dir for training df
+NAME_PREPROCESSING_DOC: 'df_meta_bloks_coord_all_pages_v_8.pickle' # df with preprocessing
+NAME_REFERENCE: 'df_reference_ext.pickle' # reference: data_raw.pickle  df_reference_ext.pickle
+NAME_MARKUP_DF: 'df_markup_full.pickle' # 'df_markup_lev_500000.pickle' 'df_markup_jaro_500000.pickle'
+
+MAX_SIZE_PDF: 10000000
+# params for markup and ML:
+RS: 42 # random seed
+LEV_DISTANCE: 60 # порог принятия решения отношения к искомой сущности при сравнение двух строк
+ROW_DF_LIMIT: 500000 # максимальное количество строк df для эксперементов
+ESTIMATOR_SENDER: 'jaro_winkler' # 'jaro_winkler' 'lev_distance' - методы сравнения строк
+ESTIMATOR_SIGNER: 'lev_distance' # 'jaro_winkler' 'lev_distance' - методы сравнения строк
+
+# params for validation
+SIM_VAL_SIGNER: 70 # порог similirity для принятия решения при валидации (predict = validate) сигнера
+SIM_VAL_SENDER: 60 # # порог similirity для принятия решения при валидации (predict = validate) сендера
+
+# experiment naming for mlflow
+NAME_EXPEREMENT: "new model"
+
+### AUTOCOMPLETE ###
+
+# dirictoryes and doc names
+DIR_PDF_PROD: '/data/volume_data/docs/vh/full_new/small_2'
+DIR_PREPROCESSING_PROD: './data/prod/'
+NAME_PREPROCESSING_DOC_PROD: 'df_preprocessing.pickle'
+
+# MODELS
+MODEL_SIGNER_PREDICTION: './models/model_signer_prediction.pickle'
+MODEL_SENDER_PREDICTION: './models/model_sender_prediction.pickle'
+MODEL_DATE_PREDICTION: './models/model_date_prediction.pickle'
+MODEL_NUMBER_PREDICTION: './models/model_number_prediction.pickle'
