@@ -12,8 +12,10 @@ import matplotlib.pyplot as plt
 
 extractor = PrioritetExtractor()
 
+
 def is_true_pdf(data: dict) -> bool:
     return all([data['kind'] == 'Письмо', data['delivery_type'] != 'МЭДО'])
+
 
 def get_true_pdf_with_order(path: Path, data: dict) -> str:
     # функция возвращает путь к существующему файду пдф с максимальным ордером
@@ -26,6 +28,7 @@ def get_true_pdf_with_order(path: Path, data: dict) -> str:
             if (exists_path := path / (value['id'] + '.pdf')).exists():
                 return exists_path
 
+
 def get_true_path_to_pdf(path: Path, with_medo=False) -> Path:
     extracted_data = extractor.process_folder(path)
     # функция возвращает путь к существующему файлу пдф с максимальным значением order,
@@ -36,21 +39,23 @@ def get_true_path_to_pdf(path: Path, with_medo=False) -> Path:
     else:        
         if (is_true_pdf(extracted_data)) and (true_path := get_true_pdf_with_order(path,extracted_data)):
             return true_path
-        
-def make_img_dir(path_to_img: Path, counter: int, doc_count_in_dir: int ):    
+
+
+def make_img_dir(path_to_img: Path, counter: int, doc_count_in_dir: int):
     if counter%doc_count_in_dir == 0:
         img_dir = str(counter) + '_' + str(counter + doc_count_in_dir)
         path_to_img_dir = path_to_img / img_dir
         Path.mkdir(path_to_img_dir, exist_ok=True)
 
-def pdf_to_img(path_to_pdf_files: Path, path_to_img: Path, format_img: str='.jpg', doc_count_in_dir=50, last_page=1):
+
+def pdf_to_img(path_to_pdf_files: Path, path_to_img: Path, format_img: str = '.jpg', doc_count_in_dir=50, last_page=1):
     
     count_all_paths = 0
     true_counter = 0
     
     for path in path_to_pdf_files.iterdir():
         
-        count_all_paths +=1
+        count_all_paths += 1
         doc = get_true_path_to_pdf(path)
     
         if doc:
@@ -77,7 +82,7 @@ def pdf_to_img(path_to_pdf_files: Path, path_to_img: Path, format_img: str='.jpg
                     img = np.array(np.rot90(im, 0))
                     # путь сохранения иображения
                     # имя изображения = doc_id + num page
-                    name = str(doc_name) +'_'+ str(num)
+                    name = str(doc_name) + '_' + str(num)
                     path_doc = path_to_img_dir/name
                     path_doc_ext = str(path_doc.with_suffix(format_img))
                     cv2.imwrite(path_doc_ext, img)
@@ -147,7 +152,11 @@ def check_dates_numbers(labels: list, CLASSES):
             return i
     return False
 
-def get_dates_and_numbers(paths: list, path_save_date: Path, path_save_numbers: Path, model: YOLO, CLASSES: list, limit = 500, disp=True):
+
+def get_dates_and_numbers(paths: list, path_save_date: Path,
+                          path_save_numbers: Path,
+                          model: YOLO, CLASSES: list,
+                          limit = 500, disp=True):
     
     date_index = CLASSES.index('predict_date')
     number_index = CLASSES.index('predict_number')
@@ -192,6 +201,7 @@ def get_dates_and_numbers(paths: list, path_save_date: Path, path_save_numbers: 
             return count_list, date_list, number_list
         
     return count_list, date_list, number_list
+
 
 def plot_count_dates_numbers(count_list: list, date_list: list, number_list: list, xticks=100, y_ticks=20):
     plt.figure(figsize=(15,5))
