@@ -34,11 +34,11 @@ def get_true_path_to_pdf(path: Path, with_medo=False) -> Path:
     # функция возвращает путь к существующему файлу пдф с максимальным значением order,
     # если kind == "Письмо" и delivery_type != "МЭДО"
     if with_medo:
-        if extracted_data['kind'] == 'Письмо' and (true_path := get_true_pdf_with_order(path,extracted_data)):
-            return true_path
+        if extracted_data['kind'] == 'Письмо' and (true_path := get_true_pdf_with_order(path, extracted_data)):
+            return Path(true_path)
     else:        
-        if (is_true_pdf(extracted_data)) and (true_path := get_true_pdf_with_order(path,extracted_data)):
-            return true_path
+        if (is_true_pdf(extracted_data)) and (true_path := get_true_pdf_with_order(path, extracted_data)):
+            return Path(true_path)
 
 
 def make_img_dir(path_to_img: Path, counter: int, doc_count_in_dir: int):
@@ -167,9 +167,9 @@ def get_dates_and_numbers(paths: list, path_save_date: Path,
     # заложен функционал позволяющий разделять пути сохранения дат и номеров
     img = []
     count_list, date_list, number_list = [], [], []
-    counter = 0 # счётчик всех документов
-    count_dates = 0 # счётчик изображений дат
-    count_numbers = 0 # счётчик изображений номеров
+    counter = 0  # счётчик всех документов
+    count_dates = 0  # счётчик изображений дат
+    count_numbers = 0  # счётчик изображений номеров
 
     for path in paths:
         counter += 1
